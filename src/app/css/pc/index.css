@@ -1,0 +1,89 @@
+.pc-wrap {
+    background-image: url("/public/img/barner/barner.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.pc-wrap .container {
+    width: 1300px;
+    height: 100vh;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+/* Join */
+.pc-wrap .container .auth {
+    width: 40%;
+    height: auto;
+    border-radius: 20px;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0px 0px 10px black;
+}
+
+.pc-wrap .container .auth .title {
+    text-align: center;
+    margin: 20px 0;
+    flex-direction: row;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+.pc-wrap .container .auth .inputs .pass-info {
+    font-size: 12px;
+    color: red;
+    margin: 5px;
+}
+
+.pc-wrap .container .auth button {
+    background-color: antiquewhite;
+    margin-top: 10px;
+    font-weight: 700;
+    padding: 15px 0;
+    color: rgb(68, 67, 67);
+}
+
+/* Chat Menu */
+
+.pc-wrap .container .chat-menu {
+    width: 80%;
+    height: 90%;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.pc-wrap .container .chat-menu .client {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.pc-wrap .container .chat-menu .client .client-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0.7;
+    background-color: white;
+    z-index: 1;
+}
+
+.pc-wrap .container .chat-menu .client .client-info {
+    position: relative;
+    font-weight: 700;
+    z-index: 2;
+    color: black;
+}
+
+.pc-wrap .container .chat-menu .client .client-sign {
+    position: relative;
+    z-index: 2;
+    color: black;
+}
