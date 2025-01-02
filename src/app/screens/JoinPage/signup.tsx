@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Avatar, Box, Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Stack, TextField, Typography } from "@mui/material"
+import { Avatar, Box, Button, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, Stack, TextField, Typography } from "@mui/material"
 import { CloudUploadOutlined, Visibility, VisibilityOff } from "@mui/icons-material"
 import styled from "styled-components"
 import { IMAGE_FORMATS, Message } from "../../../libs/config"
@@ -14,6 +14,7 @@ const SignUp = (props: any) => {
     const [imagePreview, setImagePreView] = useState<string>("/img/example.jpg")
     const [password, setPassword] = useState<string>("")
     const [repeatPassword, setRepeatPassword] = useState<string>("")
+    const [room, setRoom] = useState("")
     const [name, setName] = useState<string>("")
     const [phone, setPhone] = useState<string>("")
     const [file, setFile] = useState("")
@@ -74,6 +75,10 @@ const SignUp = (props: any) => {
             console.log(`ERROR: handleRequestSignup, ${err}`)
             await sweetErrorHandling(err)
         }
+    }
+
+    const handleChangeRoom = (e: any) => {
+        setRoom(e.target.value)
     }
 
     return (
@@ -156,6 +161,25 @@ const SignUp = (props: any) => {
                             />
                         </FormControl>
                     </Stack>
+                    <FormControl sx={{ mt: 2 }}>
+                        <InputLabel id="room">Room</InputLabel>
+                        <Select
+                            labelId="room"
+                            id="demo-simple-select-helper"
+                            value={room}
+                            label="Age"
+                            onChange={handleChangeRoom}
+                            fullWidth
+                        >
+                            <MenuItem value={"React Native"}>React Native</MenuItem>
+                            <MenuItem value={"React"}>React</MenuItem>
+                            <MenuItem value={"Next"}>Next</MenuItem>
+                            <MenuItem value={"Python"}>Python</MenuItem>
+                            <MenuItem value={"JS"}>JS</MenuItem>
+                            <MenuItem value={"PHP"}>PHP</MenuItem>
+                            <MenuItem value={"NEST"}>NESTS</MenuItem>
+                        </Select>
+                    </FormControl>
                 </Stack>
                 <Stack className="photo" direction={"row"} gap={"40px"}>
                     <Box className="img">

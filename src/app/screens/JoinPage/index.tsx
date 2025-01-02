@@ -26,11 +26,9 @@ const Login = (props: any) => {
     const navigate = useNavigate()
     const [room, setRoom] = useState<string>("");
     const [showPassword, setShowPassword] = useState<boolean>(false)
-    const { authMember } = useGlobals()
 
     //LifeCicle
     useEffect(() => {
-        if (!authMember) navigate("/")
     }, [])
     //handlers
     const handleChange = (e: any) => {
@@ -106,6 +104,7 @@ const Login = (props: any) => {
                     </Select>
                 </FormControl>
                 <Button variant="outlined" onClick={handleLink}>Join the room</Button>
+                <Typography textAlign={"center"} marginTop={2}>Do you have an account? <a href="/">signup</a></Typography>
             </Stack>
         </Stack>
     )

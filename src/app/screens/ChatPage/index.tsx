@@ -13,9 +13,13 @@ import {
     Button
 } from '@mui/material'
 import { Phone, Person, Add, Send, AddReactionOutlined, LogoutOutlined, LoginOutlined, ForumOutlined, } from '@mui/icons-material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import EmojiPicker from 'emoji-picker-react'
 import MenuBar from './menuBar'
+import { useGlobals } from '../../hooks/useGlobals'
+import { useNavigate } from 'react-router-dom'
+import { sweetErrorHandling, sweetTopSmallSuccessAlert } from '../../../libs/sweetAlert'
+import MemberService from '../../services/member.service'
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -62,34 +66,39 @@ interface Contact {
     timestamp: string
     online?: boolean
 }
+const messages: Message[] = [
+    { id: 1, content: "Hello Peter, it's me, Steve", sender: "Steve Miller", timestamp: "11:04 am" },
+    { id: 2, content: "Are you there? we need to talk, it's urgent", sender: "Steve Miller", timestamp: "11:05 am" },
+    { id: 3, content: "Hey Steve, it's me. Are you looking for me now?", sender: "me", timestamp: "11:20 am" },
+    { id: 4, content: "Could you come and talk to me? I'll send you the place", sender: "Steve Miller", timestamp: "11:35 am" },
+    { id: 5, content: "Peter is typing...", sender: "status", timestamp: "11:40 am" },
+]
 
+const members = [
+    { memberNick: "Andy" },
+    { memberNick: "Shawn" },
+    { memberNick: "Martin" },
+    { memberNick: "David" },
+    { memberNick: "David" },
+    { memberNick: "David" },
+    { memberNick: "David" },
+    { memberNick: "David" },
+    { memberNick: "David" },
+    { memberNick: "David" },
+]
 
 const ChatMenu: React.FC = (props: any) => {
     const [activeChat, setActiveChat] = useState<string>("Steve Miller")
     const [text, setText] = useState("")
     const [anchorEl, setAnchorEl] = useState(null)
-    const user = { _id: undefined }
+    const { authMember } = useGlobals()
+    const navigate = useNavigate()
 
-    const messages: Message[] = [
-        { id: 1, content: "Hello Peter, it's me, Steve", sender: "Steve Miller", timestamp: "11:04 am" },
-        { id: 2, content: "Are you there? we need to talk, it's urgent", sender: "Steve Miller", timestamp: "11:05 am" },
-        { id: 3, content: "Hey Steve, it's me. Are you looking for me now?", sender: "me", timestamp: "11:20 am" },
-        { id: 4, content: "Could you come and talk to me? I'll send you the place", sender: "Steve Miller", timestamp: "11:35 am" },
-        { id: 5, content: "Peter is typing...", sender: "status", timestamp: "11:40 am" },
-    ]
+    //LifeCircle
+    useEffect(()=>{
+        if(!authMember) navigate("/")
+    },[])
 
-    const members = [
-        {memberNick:"Andy"},
-        {memberNick:"Shawn"},
-        {memberNick:"Martin"},
-        {memberNick:"David"},
-        {memberNick:"David"},
-        {memberNick:"David"},
-        {memberNick:"David"},
-        {memberNick:"David"},
-        {memberNick:"David"},
-        {memberNick:"David"},
-    ]
 
     //Handler
     const handleText = (e: any) => {
@@ -103,10 +112,22 @@ const ChatMenu: React.FC = (props: any) => {
             setAnchorEl(null)
         }
     }
+
+    const handleLogoutRequest = async()=>{
+        try{
+            const memberService = new MemberService();
+            const result = await memberService.logout();
+            await sweetTopSmallSuccessAlert("Success", 700);
+            localStorage.removeItem("member");
+            navigate("/")
+        }catch(err:any){
+            await sweetErrorHandling(err)
+        }
+    }
     return (
         <Stack className="container">
             <Stack className="chat-interface">
-                < MenuBar members={members}/>
+                < MenuBar members={members} />
                 <Stack className='chat-menu'>
                     <Box className={"client"}>
                         <Box className="client-wrapper"></Box>
@@ -117,7 +138,7 @@ const ChatMenu: React.FC = (props: any) => {
                                 <Typography variant="caption" fontWeight={700}>Python</Typography>
                             </Box>
                         </Box>
-                        <Box className={"client-sign"}>
+                        <Box className={"client-sign"} onClick={handleLogoutRequest}>
                             <IconButton color="inherit" title='Log Out'>
                                 <LogoutOutlined />
                             </IconButton>

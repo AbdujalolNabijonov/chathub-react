@@ -33,4 +33,19 @@ export default class MemberService {
             throw err
         }
     }
+
+    public async login() {
+
+    }
+
+    public async logout(): Promise<void> {
+        try {
+            console.log("METHOD: logout");
+            const response = await axios.get(this.apiUrl + "/logout", { withCredentials: true });
+            return response.data
+        } catch (err: any) {
+            console.log(`Error: logout, ${err.message}`);
+
+        }
+    }
 }
