@@ -18,6 +18,10 @@ import {
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { useGlobals } from "../../hooks/useGlobals";
+import { sweetErrorHandling } from "../../../libs/sweetAlert";
+import { Message } from "../../../libs/config";
+import MemberService from "../../services/member.service";
+import { MemberLoginInput } from "../../../libs/types/member";
 
 
 
@@ -26,11 +30,18 @@ const Login = (props: any) => {
     const navigate = useNavigate()
     const [room, setRoom] = useState<string>("");
     const [showPassword, setShowPassword] = useState<boolean>(false)
+    const [password, setPassword] = useState<string>("")
+    const [memberNick, setMemberNick] = useState<string>("")
+    const {setAuthMember}=useGlobals()
 
-    //LifeCicle
-    useEffect(() => {
-    }, [])
     //handlers
+    const handleChangePassword = (e: any) => {
+        setPassword(e.target.value)
+    }
+
+    const handleChangeName = (e: any) => {
+        setMemberNick(e.target.value)
+    }
     const handleChange = (e: any) => {
         setRoom(e.target.value)
     }
@@ -41,8 +52,23 @@ const Login = (props: any) => {
             setShowPassword(true)
         }
     }
-    const handleLink = () => {
-        navigate("/chat")
+
+    const handleRequestLogin = async () => {
+        try {
+            if (memberNick === "" || password === "") throw new Error(Message.error3);
+            if(password.length<5) throw new Error(Message.error7)
+            const data: MemberLoginInput = {
+                memberNick,
+                memberPassword: password
+            }
+            const memberService = new MemberService()
+            const member = await memberService.login(data);
+            localStorage.setItem("member", JSON.stringify(member));
+            setAuthMember(member)
+            navigate("/chat")
+        } catch (err: any) {
+            await sweetErrorHandling(err)
+        }
     }
     return (
         <Stack className="container">
@@ -57,6 +83,7 @@ const Login = (props: any) => {
                         placeholder="Nickname"
                         sx={{ marginBottom: '10px' }}
                         label="Nickname"
+                        onChange={handleChangeName}
                     >
                     </TextField>
                     <FormControl sx={{ mt: 2 }} variant="outlined">
@@ -65,6 +92,7 @@ const Login = (props: any) => {
                             fullWidth
                             id="outlined-adornment-password"
                             type={showPassword ? 'text' : 'password'}
+                            onChange={handleChangePassword}
                             endAdornment={
                                 <InputAdornment position="end">
                                     <IconButton
@@ -103,7 +131,7 @@ const Login = (props: any) => {
                         <MenuItem value={"NEST"}>NESTS</MenuItem>
                     </Select>
                 </FormControl>
-                <Button variant="outlined" onClick={handleLink}>Join the room</Button>
+                <Button variant="outlined" onClick={handleRequestLogin}>Join the room</Button>
                 <Typography textAlign={"center"} marginTop={2}>Do you have an account? <a href="/">signup</a></Typography>
             </Stack>
         </Stack>

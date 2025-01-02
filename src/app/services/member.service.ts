@@ -1,6 +1,6 @@
 import { API_URL } from "../../libs/config";
 import { T } from "../../libs/types/common";
-import { Member, MemberSignupInput } from "../../libs/types/member";
+import { Member, MemberLoginInput, MemberSignupInput } from "../../libs/types/member";
 import axios from "axios";
 
 export default class MemberService {
@@ -34,8 +34,15 @@ export default class MemberService {
         }
     }
 
-    public async login() {
-
+    public async login(data: MemberLoginInput): Promise<Member> {
+        try {
+            const url = this.apiUrl + "/login";
+            const response = await axios.post(url, data, { withCredentials: true });
+            return response.data
+        } catch (err: any) {
+            console.log(`Error: login, ${err.message}`);
+            throw err
+        }
     }
 
     public async logout(): Promise<void> {
@@ -45,7 +52,7 @@ export default class MemberService {
             return response.data
         } catch (err: any) {
             console.log(`Error: logout, ${err.message}`);
-
+            throw err
         }
     }
 }
