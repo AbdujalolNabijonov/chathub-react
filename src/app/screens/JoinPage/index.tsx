@@ -15,8 +15,9 @@ import {
     TextField,
     Typography
 } from "@mui/material"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
+import { useGlobals } from "../../hooks/useGlobals";
 
 
 
@@ -25,7 +26,12 @@ const Login = (props: any) => {
     const navigate = useNavigate()
     const [room, setRoom] = useState<string>("");
     const [showPassword, setShowPassword] = useState<boolean>(false)
+    const { authMember } = useGlobals()
 
+    //LifeCicle
+    useEffect(() => {
+        if (!authMember) navigate("/")
+    }, [])
     //handlers
     const handleChange = (e: any) => {
         setRoom(e.target.value)

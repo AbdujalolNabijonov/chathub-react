@@ -26,6 +26,7 @@ export default class MemberService {
                 },
                 withCredentials: true
             });
+            console.log(response.data)
             return response.data
         } catch (err: any) {
             console.log(`Error: signup, ${err.message}`);

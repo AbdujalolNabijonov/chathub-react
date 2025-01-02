@@ -6,6 +6,8 @@ import { IMAGE_FORMATS, Message } from "../../../libs/config"
 import { sweetErrorHandling } from "../../../libs/sweetAlert"
 import MemberService from "../../services/member.service"
 import { MemberSignupInput } from "../../../libs/types/member"
+import { useGlobals } from "../../hooks/useGlobals"
+import { useNavigate } from "react-router-dom"
 
 const SignUp = (props: any) => {
     const [showPassword, setShowPassword] = useState<boolean>(false)
@@ -15,6 +17,8 @@ const SignUp = (props: any) => {
     const [name, setName] = useState<string>("")
     const [phone, setPhone] = useState<string>("")
     const [file, setFile] = useState("")
+    const { setAuthMember } = useGlobals()
+    const navigate = useNavigate()
 
     //Handlers
     const VisuallyHiddenInput = styled('input')({
@@ -62,7 +66,10 @@ const SignUp = (props: any) => {
                 memberImage: file
             }
             const memberService = new MemberService();
-            await memberService.signup(data);
+            const member = await memberService.signup(data);
+            setAuthMember(member)
+            localStorage.setItem("member", JSON.stringify(member))
+            navigate("/chat")
         } catch (err) {
             console.log(`ERROR: handleRequestSignup, ${err}`)
             await sweetErrorHandling(err)
