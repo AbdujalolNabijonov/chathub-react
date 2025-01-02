@@ -70,18 +70,25 @@ const ChatMenu: React.FC = (props: any) => {
     const [anchorEl, setAnchorEl] = useState(null)
     const user = { _id: undefined }
 
-    const contacts: Contact[] = [
-        { id: 1, name: "Steve Miller", avatar: "/placeholder.svg", lastMessage: "Hey, how are you doing, Parker?", timestamp: "20 Jan", online: true },
-        { id: 2, name: "Mary Jane", avatar: "/placeholder.svg", lastMessage: "Why you don't answer me? Call me...", timestamp: "19 Apr" },
-        { id: 3, name: "Anthony", avatar: "/placeholder.svg", lastMessage: "Parker, call me back!", timestamp: "Yesterday" },
-    ]
-
     const messages: Message[] = [
         { id: 1, content: "Hello Peter, it's me, Steve", sender: "Steve Miller", timestamp: "11:04 am" },
         { id: 2, content: "Are you there? we need to talk, it's urgent", sender: "Steve Miller", timestamp: "11:05 am" },
         { id: 3, content: "Hey Steve, it's me. Are you looking for me now?", sender: "me", timestamp: "11:20 am" },
         { id: 4, content: "Could you come and talk to me? I'll send you the place", sender: "Steve Miller", timestamp: "11:35 am" },
         { id: 5, content: "Peter is typing...", sender: "status", timestamp: "11:40 am" },
+    ]
+
+    const members = [
+        {memberNick:"Andy"},
+        {memberNick:"Shawn"},
+        {memberNick:"Martin"},
+        {memberNick:"David"},
+        {memberNick:"David"},
+        {memberNick:"David"},
+        {memberNick:"David"},
+        {memberNick:"David"},
+        {memberNick:"David"},
+        {memberNick:"David"},
     ]
 
     //Handler
@@ -99,12 +106,12 @@ const ChatMenu: React.FC = (props: any) => {
     return (
         <Stack className="container">
             <Stack className="chat-interface">
-                < MenuBar />
+                < MenuBar members={members}/>
                 <Stack className='chat-menu'>
                     <Box className={"client"}>
                         <Box className="client-wrapper"></Box>
                         <Box className={"client-info"} sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                            <ForumOutlined/>
+                            <ForumOutlined />
                             <Box>
                                 <Typography variant="subtitle1">Room Name</Typography>
                                 <Typography variant="caption" fontWeight={700}>Python</Typography>
@@ -117,25 +124,31 @@ const ChatMenu: React.FC = (props: any) => {
                         </Box>
                     </Box>
                     {/* Messages */}
-                    <Box
-                        sx={{
-                            flex: 1,
-                            bgcolor: 'secondary.main',
-                            p: 2,
-                            overflow: 'auto',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: 1
-                        }}
-                    >
+                    <Stack className={"msg-interface"}>
                         {messages.map((message: Message) => {
                             if (message.sender === "me") {
-                                return (<></>)
+                                return (
+                                    <Stack className={"sender"}>
+                                        <Stack className='sender-msg'>
+                                            <Box>{message.content}</Box>
+                                            <Box className={"time"}>{message.timestamp}</Box>
+                                        </Stack>
+                                        <Avatar />
+                                    </Stack>
+                                )
                             } else {
-                                return (<></>)
+                                return (
+                                    <Stack className='messager'>
+                                        <Avatar />
+                                        <Stack className='messager-msg'>
+                                            <Box>{message.content}</Box>
+                                            <Box className={"time"}>{message.timestamp}</Box>
+                                        </Stack>
+                                    </Stack>
+                                )
                             }
                         })}
-                    </Box>
+                    </Stack>
                     {/* Message Input */}
                     <Box sx={{ p: 2, bgcolor: 'secondary.dark' }}>
                         <Box sx={{ display: 'flex', gap: 1 }}>

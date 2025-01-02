@@ -15,6 +15,46 @@
 }
 
 /* Join */
+.pc-wrap .container .signup{
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px black;
+    width: 50%;
+}
+
+.pc-wrap .container .signup .title{
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    margin: 20px 0 30px 0;
+}
+.pc-wrap .container .signup .photo{
+    margin-top: 20px;
+}
+
+.pc-wrap .container .signup .photo .img{
+    height: 330px;
+    width: 350px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 0 5px black;
+}
+.pc-wrap .container .signup .photo .img img{
+    width: 100%;
+    height: 100%;
+}
+.pc-wrap .container .signup .photo .photo-info div:nth-child(1){
+    color:#4a2cdc;
+    margin-bottom: 40px;
+}
+
+.pc-wrap .container .signup .photo .photo-info div:nth-child(3){
+    width: 250px;
+    margin-top: 30px;
+    color:#654be4;
+}
+
 .pc-wrap .container .auth {
     width: 40%;
     height: auto;
@@ -47,37 +87,62 @@
     color: rgb(68, 67, 67);
 }
 
+
+
+
 /* Chat Menu */
 
-.pc-wrap .container .chat-interface{
+.pc-wrap .container .chat-interface {
     flex-direction: row;
     height: 700px;
     width: 80%;
     border-radius: 20px;
     overflow: hidden;
 }
-.pc-wrap .container .chat-interface .menu-bar{
+
+.pc-wrap .container .chat-interface .menu-bar {
     width: 25%;
     background-color: aliceblue;
 }
-.pc-wrap .container .chat-interface .menu-bar .room-info{
+
+.pc-wrap .container .chat-interface .menu-bar .members {
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #b9b9b9;
+    border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.pc-wrap .container .chat-interface .menu-bar .room-info {
     flex-direction: row;
     gap: 20px;
     align-items: center;
     padding: 11px 20px;
     border-bottom: 1px solid gray;
 }
-.pc-wrap .container .chat-interface .menu-bar .members .member{
+
+.pc-wrap .container .chat-interface .menu-bar .members .member {
     flex-direction: row;
     align-items: center;
     gap: 20px;
     font-weight: 600;
-    font-size: 25px;
+    font-size: 20px;
     border-bottom: 1px solid gray;
     padding: 10px;
 }
-.pc-wrap .container .chat-interface .chat-menu{
-    flex:1
+
+.pc-wrap .container .chat-interface .chat-menu {
+    flex: 1
 }
 
 .pc-wrap .container .chat-interface .chat-menu .client {
@@ -110,4 +175,49 @@
     position: relative;
     z-index: 2;
     color: black;
+}
+
+.pc-wrap .container .chat-menu .msg-interface {
+    height: 100%;
+    background-color: #c4a77f;
+}
+
+.pc-wrap .container .chat-menu .msg-interface .sender {
+    justify-content: end;
+    flex-direction: row;
+    gap: 20px;
+    margin: 10px 7px;
+    align-items: end;
+}
+
+.pc-wrap .container .chat-menu .msg-interface .sender .sender-msg {
+    background-color: rgb(232, 241, 249);
+    padding: 10px 15px;
+    border-radius: 20px 20px 0 20px;
+}
+
+.pc-wrap .container .chat-menu .msg-interface .sender .sender-msg div:nth-child(1) {
+    word-wrap: break-word;
+    width: 300px;
+}
+
+.pc-wrap .container .chat-menu .msg-interface .time {
+    color: rgb(88, 88, 88);
+    font-weight: 600;
+    font-size: 15px;
+    text-align: end;
+}
+
+.pc-wrap .container .chat-menu .msg-interface .messager {
+    flex-direction: row;
+    justify-content: start;
+    gap: 20px;
+    margin: 10px 7px;
+    align-items: end;
+}
+
+.pc-wrap .container .chat-menu .msg-interface .messager .messager-msg {
+    background-color: rgb(199, 224, 246);
+    padding: 10px 15px;
+    border-radius: 20px 20px 20px 0px;
 }

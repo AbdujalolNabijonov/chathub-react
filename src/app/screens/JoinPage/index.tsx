@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 
 
 
-export const Join = (props: any) => {
+const Login = (props: any) => {
     const navigate = useNavigate()
     const [room, setRoom] = useState<string>("");
     const [showPassword, setShowPassword] = useState<boolean>(false)
@@ -39,7 +39,7 @@ export const Join = (props: any) => {
     }
     const handleLink = () => {
         navigate("/chat")
-     }
+    }
     return (
         <Stack className="container">
             <Stack className="auth">
@@ -55,6 +55,30 @@ export const Join = (props: any) => {
                         label="Nickname"
                     >
                     </TextField>
+                    <FormControl sx={{ mt: 2 }} variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                        <OutlinedInput
+                            fullWidth
+                            id="outlined-adornment-password"
+                            type={showPassword ? 'text' : 'password'}
+                            endAdornment={
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        sx={{ width: "50px", height: "50px", mb: 1 }}
+                                        aria-label={
+                                            showPassword ? 'hide the password' : 'display the password'
+                                        }
+                                        onClick={handleClickShowPassword}
+                                        edge="end"
+                                    >
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            }
+                            label="Password"
+                        />
+                    </FormControl>
+                    <div style={{ color: "red", marginBottom: "5px", fontSize: "14px", opacity: 0.7 }}>Please, insert al least 6 charters</div>
                 </Stack>
                 <FormControl>
                     <InputLabel id="room">Room</InputLabel>
@@ -80,3 +104,5 @@ export const Join = (props: any) => {
         </Stack>
     )
 }
+
+export default Login

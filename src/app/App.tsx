@@ -5,7 +5,8 @@ import { Route, Routes } from "react-router-dom"
 import "./css/mobile/index.css"
 import "./css/pc/index.css"
 import "./css/common.css"
-import { Join } from './screens/JoinPage';
+import Login from './screens/JoinPage';
+import SignUp from './screens/JoinPage/signup';
 
 function App() {
   const device = "desktop"
@@ -15,7 +16,8 @@ function App() {
       <Stack className='pc-wrap'>
         <Routes>
           <Route path='/chat' element={<ChatMenu />} />
-          <Route path='/' element={<Join />} />
+          <Route path='/' element={<SignUp />} />
+          <Route path='/login' element={<Login />} />
         </Routes>
       </Stack>
     )
@@ -24,7 +26,8 @@ function App() {
       <Stack className="mobile-wrap">
         <Routes>
           <Route path='/chat' element={<ChatMenu />} />
-          <Route path='/' element={<Join />} />
+          <Route path='/' element={<SignUp />} />
+          <Route path='/login' element={<Login />} />
         </Routes>
       </Stack>
     )
