@@ -49,14 +49,38 @@
 
 /* Chat Menu */
 
-.pc-wrap .container .chat-menu {
+.pc-wrap .container .chat-interface{
+    flex-direction: row;
+    height: 700px;
     width: 80%;
-    height: 90%;
     border-radius: 20px;
     overflow: hidden;
 }
+.pc-wrap .container .chat-interface .menu-bar{
+    width: 25%;
+    background-color: aliceblue;
+}
+.pc-wrap .container .chat-interface .menu-bar .room-info{
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+    padding: 11px 20px;
+    border-bottom: 1px solid gray;
+}
+.pc-wrap .container .chat-interface .menu-bar .members .member{
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    font-weight: 600;
+    font-size: 25px;
+    border-bottom: 1px solid gray;
+    padding: 10px;
+}
+.pc-wrap .container .chat-interface .chat-menu{
+    flex:1
+}
 
-.pc-wrap .container .chat-menu .client {
+.pc-wrap .container .chat-interface .chat-menu .client {
     position: relative;
     display: flex;
     justify-content: space-between;

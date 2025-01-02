@@ -45,7 +45,7 @@ export const Join = (props: any) => {
             <Stack className="auth">
                 <Stack className={"title"}>
                     <Avatar src="/img/icons/logo.png" sx={{ height: 70, width: 70 }} />
-                    <Typography fontWeight={700} fontSize={30}>Join ChatHub</Typography>
+                    <Typography fontWeight={700} fontSize={30}>Join CHATHUB</Typography>
                 </Stack>
                 <Stack className="inputs">
                     <TextField

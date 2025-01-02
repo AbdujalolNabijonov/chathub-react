@@ -12,9 +12,10 @@ import {
     MenuItem,
     Button
 } from '@mui/material'
-import { Phone, Person, Add, Send, AddReactionOutlined, LogoutOutlined, LoginOutlined, } from '@mui/icons-material'
+import { Phone, Person, Add, Send, AddReactionOutlined, LogoutOutlined, LoginOutlined, ForumOutlined, } from '@mui/icons-material'
 import { useState } from 'react'
 import EmojiPicker from 'emoji-picker-react'
+import MenuBar from './menuBar'
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -96,100 +97,95 @@ const ChatMenu: React.FC = (props: any) => {
         }
     }
     return (
-        <Stack
-            className="container"
-            flexDirection={"row"}
-            alignItems={"center"}
-            justifyContent={"center"}
-        >
-            <Stack className='chat-menu'>
-                <Box className={"client"}>
-                    <Box className="client-wrapper"></Box>
-                    <Box className={"client-info"} sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                        <Avatar src="/placeholder.svg" />
-                        <Box>
-                            <Typography variant="subtitle1">Steve Miller</Typography>
-                            <Typography variant="caption">Business manager</Typography>
+        <Stack className="container">
+            <Stack className="chat-interface">
+                < MenuBar />
+                <Stack className='chat-menu'>
+                    <Box className={"client"}>
+                        <Box className="client-wrapper"></Box>
+                        <Box className={"client-info"} sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                            <ForumOutlined/>
+                            <Box>
+                                <Typography variant="subtitle1">Room Name</Typography>
+                                <Typography variant="caption" fontWeight={700}>Python</Typography>
+                            </Box>
+                        </Box>
+                        <Box className={"client-sign"}>
+                            <IconButton color="inherit" title='Log Out'>
+                                <LogoutOutlined />
+                            </IconButton>
                         </Box>
                     </Box>
-                    <Box className={"client-sign"}>
-                        <IconButton color="inherit" title='Log Out'>
-                            <LogoutOutlined />
-                        </IconButton>
-                    </Box>
-                </Box>
-
-                {/* Messages */}
-                <Box
-                    sx={{
-                        flex: 1,
-                        bgcolor: 'secondary.main',
-                        p: 2,
-                        overflow: 'auto',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 1
-                    }}
-                >
-                    {messages.map((message: Message) => {
-                        if (message.sender === "me") {
-                            return (<></>)
-                        } else {
-                            return (<></>)
-                        }
-                    })}
-                </Box>
-
-
-                {/* Message Input */}
-                <Box sx={{ p: 2, bgcolor: 'secondary.dark' }}>
-                    <Box sx={{ display: 'flex', gap: 1 }}>
-                        <IconButton color="inherit" sx={{ color: 'white' }} onClick={handleMenuToggle}>
-                            <AddReactionOutlined />
-                        </IconButton>
-                        <TextField
-                            fullWidth
-                            placeholder="Type a message..."
-                            variant="outlined"
-                            size="small"
-                            onChange={handleText}
-                            value={text}
-                            sx={{
-                                '& .MuiOutlinedInput-root': {
-                                    bgcolor: 'rgba(255,255,255,0.1)',
-                                    color: 'white',
-                                    '& fieldset': {
-                                        borderColor: 'rgba(255,255,255,0.2)',
-                                    },
-                                    '&:hover fieldset': {
-                                        borderColor: 'rgba(255,255,255,0.3)',
-                                    },
-                                    '&.Mui-focused fieldset': {
-                                        borderColor: 'rgba(255,255,255,0.5)',
-                                    },
-                                },
-                                '& .MuiInputBase-input::placeholder': {
-                                    color: 'rgba(255,255,255,0.6)',
-                                },
-                            }}
-                        />
-                        <IconButton color="inherit" sx={{ color: 'white' }}>
-                            <Send />
-                        </IconButton>
-                    </Box>
-                    <Menu
-                        anchorEl={anchorEl}
-                        onClose={handleMenuToggle}
-                        open={Boolean(anchorEl)}
+                    {/* Messages */}
+                    <Box
+                        sx={{
+                            flex: 1,
+                            bgcolor: 'secondary.main',
+                            p: 2,
+                            overflow: 'auto',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 1
+                        }}
                     >
-                        <EmojiPicker
-                            onEmojiClick={(emojiObj) => {
-                                setText(text + emojiObj.emoji)
-                                setAnchorEl(null)
-                            }}
-                        />
-                    </Menu>
-                </Box>
+                        {messages.map((message: Message) => {
+                            if (message.sender === "me") {
+                                return (<></>)
+                            } else {
+                                return (<></>)
+                            }
+                        })}
+                    </Box>
+                    {/* Message Input */}
+                    <Box sx={{ p: 2, bgcolor: 'secondary.dark' }}>
+                        <Box sx={{ display: 'flex', gap: 1 }}>
+                            <IconButton color="inherit" sx={{ color: 'white' }} onClick={handleMenuToggle}>
+                                <AddReactionOutlined />
+                            </IconButton>
+                            <TextField
+                                fullWidth
+                                placeholder="Type a message..."
+                                variant="outlined"
+                                size="small"
+                                onChange={handleText}
+                                value={text}
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        bgcolor: 'rgba(255,255,255,0.1)',
+                                        color: 'white',
+                                        '& fieldset': {
+                                            borderColor: 'rgba(255,255,255,0.2)',
+                                        },
+                                        '&:hover fieldset': {
+                                            borderColor: 'rgba(255,255,255,0.3)',
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: 'rgba(255,255,255,0.5)',
+                                        },
+                                    },
+                                    '& .MuiInputBase-input::placeholder': {
+                                        color: 'rgba(255,255,255,0.6)',
+                                    },
+                                }}
+                            />
+                            <IconButton color="inherit" sx={{ color: 'white' }}>
+                                <Send />
+                            </IconButton>
+                        </Box>
+                        <Menu
+                            anchorEl={anchorEl}
+                            onClose={handleMenuToggle}
+                            open={Boolean(anchorEl)}
+                        >
+                            <EmojiPicker
+                                onEmojiClick={(emojiObj) => {
+                                    setText(text + emojiObj.emoji)
+                                    setAnchorEl(null)
+                                }}
+                            />
+                        </Menu>
+                    </Box>
+                </Stack>
             </Stack>
         </Stack>
     )
