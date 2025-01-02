@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Avatar, Box, Button, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, Stack, TextField, Typography } from "@mui/material"
 import { CloudUploadOutlined, Visibility, VisibilityOff } from "@mui/icons-material"
 import styled from "styled-components"
@@ -8,6 +8,7 @@ import MemberService from "../../services/member.service"
 import { MemberSignupInput } from "../../../libs/types/member"
 import { useGlobals } from "../../hooks/useGlobals"
 import { useNavigate } from "react-router-dom"
+import { useSocket } from "../../hooks/useSocket"
 
 const SignUp = (props: any) => {
     const [showPassword, setShowPassword] = useState<boolean>(false)
@@ -20,6 +21,8 @@ const SignUp = (props: any) => {
     const [file, setFile] = useState("")
     const { setAuthMember } = useGlobals()
     const navigate = useNavigate()
+    const {setSocketRoom} = useSocket()
+
 
     //Handlers
     const VisuallyHiddenInput = styled('input')({
@@ -79,6 +82,7 @@ const SignUp = (props: any) => {
 
     const handleChangeRoom = (e: any) => {
         setRoom(e.target.value)
+        setSocketRoom(e.target.value)
     }
 
     return (

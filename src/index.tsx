@@ -13,15 +13,15 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
 root.render(
   <React.StrictMode>
-    <SocketContextProvider>
-      <ContextProvider>
+    <ContextProvider>
+      <SocketContextProvider>
         <Router>
           <ThemeProvider theme={theme}>
             <CssBaseline />
             <App />
           </ThemeProvider>
         </Router>
-      </ContextProvider>
-    </SocketContextProvider>
+      </SocketContextProvider>
+    </ContextProvider>
   </React.StrictMode>
 );

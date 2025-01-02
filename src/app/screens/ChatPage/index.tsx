@@ -99,6 +99,10 @@ const ChatMenu: React.FC = (props: any) => {
         if(!authMember) navigate("/")
     },[])
 
+    useEffect(()=>{
+        
+    })
+
 
     //Handler
     const handleText = (e: any) => {
