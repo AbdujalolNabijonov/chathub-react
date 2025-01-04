@@ -77,7 +77,7 @@ const Login = (props: any) => {
     }
     return (
         <Stack className="container">
-            <Stack className="auth">
+            <Stack className="auth custom-scrollbar">
                 <Stack className={"title"}>
                     <Avatar src="/img/icons/logo.png" sx={{ height: 70, width: 70 }} />
                     <Typography fontWeight={700} fontSize={30}>Join CHATHUB</Typography>
@@ -136,7 +136,7 @@ const Login = (props: any) => {
                         <MenuItem value={"NEST"}>NESTS</MenuItem>
                     </Select>
                 </FormControl>
-                <Button variant="outlined" onClick={handleRequestLogin}>Join the room</Button>
+                <Button className="join-btn" variant="contained" onClick={handleRequestLogin}>Join the room</Button>
                 <Typography textAlign={"center"} marginTop={2}>Do you have an account? <a href="/">signup</a></Typography>
             </Stack>
         </Stack>

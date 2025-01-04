@@ -88,7 +88,7 @@ const SignUp = (props: any) => {
 
     return (
         <Stack className="container">
-            <Stack className="signup">
+            <Stack className="signup custom-scrollbar">
                 <Stack className="title">
                     <Avatar sx={{ height: "70px", width: "70px" }} src="/img/icons/logo.png" />
                     <Typography fontSize={25} fontWeight={600}>CHATHUB Signup</Typography>
@@ -140,6 +140,7 @@ const SignUp = (props: any) => {
                                 }
                                 label="Password"
                             />
+                            <div style={{color:"red", fontSize:"12px"}}>Please, insert at least 6 characters</div>
                         </FormControl>
                         <FormControl variant="outlined" sx={{ flex: 1 }}>
                             <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>

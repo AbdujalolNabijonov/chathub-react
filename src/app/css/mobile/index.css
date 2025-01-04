@@ -1,33 +1,35 @@
-.mobile-wrap .container{
+.mobile-wrap .container {
     width: 100%;
     margin: 0 auto;
 }
 
-.mobile-wrap .container .signup{
-padding: 10px 5px;
+/* SIGNUP */
+.mobile-wrap .container .signup {
+    padding: 10px 5px;
+    overflow-y: scroll;
 }
 
-.mobile-wrap .container .signup .title{
+.mobile-wrap .container .signup .title {
     justify-content: center;
     flex-direction: row;
     align-items: center;
     margin-bottom: 20px;
 }
 
-.mobile-wrap .container .signup .inputs{
+.mobile-wrap .container .signup .inputs {
     padding: 0 7px;
 }
 
-.mobile-wrap .container .signup .inputs>div:nth-child(2){
+.mobile-wrap .container .signup .inputs>div:nth-child(2) {
     gap: 10px;
 }
 
-.mobile-wrap .container .signup .photo{
+.mobile-wrap .container .signup .photo {
     flex-direction: column;
     margin-top: 30px;
 }
 
-.mobile-wrap .container .signup .photo .img{
+.mobile-wrap .container .signup .photo .img {
     height: 270px;
     width: 270px;
     margin: 0 auto;
@@ -36,10 +38,38 @@ padding: 10px 5px;
     overflow: hidden;
 }
 
-.mobile-wrap .container .signup .photo .photo-info{
+.mobile-wrap .container .signup .photo .photo-info {
     display: flex;
     justify-content: center;
     flex-direction: column;
     text-align: center;
     padding: 5px;
+}
+
+/* LOGIN */
+.mobile-wrap .container {
+    height: 100vh;
+    justify-content: center;
+}
+.mobile-wrap .container .auth{
+    overflow-y: scroll;
+}
+
+.mobile-wrap .container .auth{
+    padding: 10px 5px;
+}
+.mobile-wrap .container .auth .title{
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.mobile-wrap .container .auth .inputs{
+    margin-bottom: 10px;
+}
+
+.mobile-wrap .container .auth .join-btn{
+    margin-top: 10px;
+    padding: 5px 0;
 }

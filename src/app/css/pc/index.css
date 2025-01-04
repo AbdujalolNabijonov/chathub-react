@@ -125,19 +125,6 @@
     scroll-behavior: smooth;
 }
 
-.custom-scrollbar::-webkit-scrollbar {
-    width: 5px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #b9b9b9;
-    border-radius: 3px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-
 .pc-wrap .container .chat-interface .menu-bar .room-info {
     flex-direction: row;
     gap: 20px;
