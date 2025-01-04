@@ -21,7 +21,7 @@ const SignUp = (props: any) => {
     const [file, setFile] = useState("")
     const { setAuthMember } = useGlobals()
     const navigate = useNavigate()
-    const {setSocketRoom} = useSocket()
+    const { setSocketRoom } = useSocket()
 
 
     //Handlers
@@ -74,6 +74,7 @@ const SignUp = (props: any) => {
             setAuthMember(member)
             localStorage.setItem("member", JSON.stringify(member))
             navigate("/chat")
+            window.location.reload()
         } catch (err) {
             console.log(`ERROR: handleRequestSignup, ${err}`)
             await sweetErrorHandling(err)

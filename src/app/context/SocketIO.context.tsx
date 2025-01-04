@@ -10,6 +10,7 @@ export const SocketContextProvider: React.FC<{ children: ReactNode }> = ({ child
     const initialSocketRoom = localStorage.getItem("socketRoom") ? JSON.parse(localStorage.getItem("socketRoom") as string) : ""
     const [socketRoom, setSocketRoom] = useState<string>(initialSocketRoom)
     const [updateSocket, setUpdateSocket] = useState<Date>(new Date())
+    const { authMember } = useGlobals()
     const cookie = new Cookies()
 
     useEffect(() => {
@@ -21,7 +22,7 @@ export const SocketContextProvider: React.FC<{ children: ReactNode }> = ({ child
         }
     }, [updateSocket])
     return (
-        <SocketContext.Provider value={{ socket: socketRef.current as Socket, socketRoom, setSocketRoom, setUpdateSocket }}>
+        <SocketContext.Provider value={{ socket: socketRef.current as Socket, socketRoom, setSocketRoom, setUpdateSocket,updateSocket }}>
             {children}
         </SocketContext.Provider>
     )

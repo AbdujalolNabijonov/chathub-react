@@ -13,7 +13,7 @@ import {
     Button
 } from '@mui/material'
 import { Phone, Person, Add, Send, AddReactionOutlined, LogoutOutlined, LoginOutlined, ForumOutlined, } from '@mui/icons-material'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import EmojiPicker from 'emoji-picker-react'
 import MenuBar from './menuBar'
 import { useGlobals } from '../../hooks/useGlobals'
@@ -61,10 +61,11 @@ const ChatMenu: React.FC = (props: any) => {
     const [anchorEl, setAnchorEl] = useState(null)
     const [messages, setMessages] = useState<MessagePayload[]>([])
     const [members, setMembers] = useState<Member[]>([])
+    const chatRef = useRef<HTMLElement>()
 
     const { authMember } = useGlobals()
     const navigate = useNavigate()
-    const { socket, socketRoom, setUpdateSocket } = useSocket()
+    const { socket, socketRoom, setUpdateSocket, updateSocket } = useSocket()
 
     //LifeCircle
     useEffect(() => {
@@ -78,21 +79,33 @@ const ChatMenu: React.FC = (props: any) => {
         socket?.emit("joinRoom", JSON.stringify(socketRoom))
 
         socket?.on('info', (data) => {
-            console.log("info:", data)
+            const infoMessage = JSON.parse(data)
+            setMessages([...messages, infoMessage])
         })
 
         socket?.on("getMessages", (data) => {
-            const messages = JSON.parse(data)
-            console.log(messages)
-            setMessages(messages.list)
+            const messagesFetch = JSON.parse(data)
+            setMessages(messagesFetch.list)
         })
 
         socket?.on("getMembers", (data) => {
             const membersFetch = JSON.parse(data);
-            console.log(membersFetch)
             setMembers(membersFetch)
         })
-    }, [socket])
+
+        return () => {
+            socket?.disconnect()
+        }
+    }, [socket, updateSocket]);
+
+    useEffect(() => {
+        if (chatRef.current) {
+            chatRef.current.scrollTo({
+                top: chatRef.current?.scrollHeight,
+                behavior: "smooth"
+            })
+        }
+    }, [messages])
 
 
     //Handler
@@ -106,6 +119,11 @@ const ChatMenu: React.FC = (props: any) => {
         } else {
             setAnchorEl(null)
         }
+    }
+
+    const handleRequestMessage = () => {
+        socket?.emit("message", JSON.stringify({ text }))
+        setText("")
     }
 
     const handleLogoutRequest = async () => {
@@ -140,23 +158,29 @@ const ChatMenu: React.FC = (props: any) => {
                         </Box>
                     </Box>
                     {/* Messages */}
-                    <Stack className={"msg-interface custom-scrollbar"}>
-                        {messages.map((message: MessagePayload) => {
-                            const image_url = `${API_URL}/${message.memberData.memberImage}`
+                    <Box ref={chatRef} className={"msg-interface custom-scrollbar"}>
+                        {messages.map((message: MessagePayload, index: number) => {
+                            const image_url = `${API_URL}/${message?.memberData?.memberImage}`
                             if (message?.memberData?._id === authMember?._id) {
                                 return (
-                                    <Stack className={"sender"}>
+                                    <Stack className={"sender"} key={index}>
                                         <Stack className='sender-msg'>
                                             <Box>{message.text}</Box>
                                             <Box className={"time"}>{moment(message.timer).format("HH:mm")}</Box>
                                         </Stack>
-                                        <Avatar src={image_url}/>
+                                        <Avatar src={image_url} />
+                                    </Stack>
+                                )
+                            } else if (message.event === "info") {
+                                return (
+                                    <Stack className='info' key={index}>
+                                        <Box>{message?.memberData?.memberNick} has {message?.action} in {moment(message.timer).format("HH:mm")}</Box>
                                     </Stack>
                                 )
                             } else {
                                 return (
-                                    <Stack className='messager'>
-                                        <Avatar src={image_url}/>
+                                    <Stack className='messager' key={index}>
+                                        <Avatar src={image_url} />
                                         <Stack className='messager-msg'>
                                             <Box>{message.text}</Box>
                                             <Box className={"time"}>{moment(message.timer).format("HH:mm")}</Box>
@@ -165,10 +189,10 @@ const ChatMenu: React.FC = (props: any) => {
                                 )
                             }
                         })}
-                    </Stack>
+                    </Box>
                     {/* Message Input */}
                     <Box sx={{ p: 2, bgcolor: 'secondary.dark' }}>
-                        <Box sx={{ display: 'flex', gap: 1 }}>
+                        <Box sx={{ display: 'flex', gap: 1 }} >
                             <IconButton color="inherit" sx={{ color: 'white' }} onClick={handleMenuToggle}>
                                 <AddReactionOutlined />
                             </IconButton>
@@ -198,7 +222,11 @@ const ChatMenu: React.FC = (props: any) => {
                                     },
                                 }}
                             />
-                            <IconButton color="inherit" sx={{ color: 'white' }}>
+                            <IconButton
+                                color="inherit"
+                                sx={{ color: 'white' }}
+                                onClick={handleRequestMessage}
+                            >
                                 <Send />
                             </IconButton>
                         </Box>

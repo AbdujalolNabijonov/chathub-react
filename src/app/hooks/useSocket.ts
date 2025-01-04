@@ -7,6 +7,7 @@ interface SocketInterface {
     socketRoom: string
     setSocketRoom: any
     setUpdateSocket: any
+    updateSocket:Date
 }
 
 export const SocketContext = createContext<SocketInterface | undefined>(undefined);

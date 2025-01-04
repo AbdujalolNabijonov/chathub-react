@@ -2,9 +2,11 @@ import { GroupOutlined } from "@mui/icons-material"
 import { Avatar, Box, Stack, Typography } from "@mui/material"
 import { Member } from "../../../libs/types/member"
 import { API_URL } from "../../../libs/config"
+import { useGlobals } from "../../hooks/useGlobals"
 
 const MenuBar = (props: any) => {
-    const { members } = props
+    const { members } = props;
+    const { authMember } = useGlobals()
     return (
         <Stack className="menu-bar">
             <Stack className="room-info">
@@ -17,10 +19,15 @@ const MenuBar = (props: any) => {
             </Stack>
             <Stack className="members custom-scrollbar">
                 {
-                    members.map((member:Member) => {
+                    members.map((member: Member, index: number) => {
                         const image_url = `${API_URL}/${member.memberImage}`
+                        const isMatch = member._id === authMember?._id
                         return (
-                            <Stack className="member">
+                            <Stack
+                                className="member"
+                                sx={isMatch ? { backgroundColor: "rgb(194, 191, 191)" } : {}}
+                                key={index}
+                            >
                                 <Avatar src={image_url} />
                                 <Box>
                                     {member.memberNick}

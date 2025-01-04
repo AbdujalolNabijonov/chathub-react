@@ -7,9 +7,10 @@ import "./css/pc/index.css"
 import "./css/common.css"
 import Login from './screens/JoinPage';
 import SignUp from './screens/JoinPage/signup';
+import useDeviceDetect from './hooks/useDeviceDetect';
 
 function App() {
-  const device = "desktop"
+  const device = useDeviceDetect()
 
   if (device === "desktop") {
     return (
