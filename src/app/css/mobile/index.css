@@ -1,0 +1,45 @@
+.mobile-wrap .container{
+    width: 100%;
+    margin: 0 auto;
+}
+
+.mobile-wrap .container .signup{
+padding: 10px 5px;
+}
+
+.mobile-wrap .container .signup .title{
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.mobile-wrap .container .signup .inputs{
+    padding: 0 7px;
+}
+
+.mobile-wrap .container .signup .inputs>div:nth-child(2){
+    gap: 10px;
+}
+
+.mobile-wrap .container .signup .photo{
+    flex-direction: column;
+    margin-top: 30px;
+}
+
+.mobile-wrap .container .signup .photo .img{
+    height: 270px;
+    width: 270px;
+    margin: 0 auto;
+    border-radius: 20px;
+    box-shadow: 0 0 5px black;
+    overflow: hidden;
+}
+
+.mobile-wrap .container .signup .photo .photo-info{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 5px;
+}

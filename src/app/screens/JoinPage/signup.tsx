@@ -94,7 +94,7 @@ const SignUp = (props: any) => {
                     <Typography fontSize={25} fontWeight={600}>CHATHUB Signup</Typography>
                 </Stack>
                 <Stack className="inputs">
-                    <Stack direction={"row"} gap={"30px"}>
+                    <Stack>
                         <TextField
                             fullWidth
                             onChange={(e: any) => setName(e.target.value)}
@@ -116,7 +116,7 @@ const SignUp = (props: any) => {
                         >
                         </TextField>
                     </Stack>
-                    <Stack direction={"row"} gap={"30px"}>
+                    <Stack>
                         <FormControl variant="outlined" sx={{ flex: 1 }}>
                             <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                             <OutlinedInput
@@ -162,7 +162,7 @@ const SignUp = (props: any) => {
                                         </IconButton>
                                     </InputAdornment>
                                 }
-                                label="Password"
+                                label="Repeat Password"
                             />
                         </FormControl>
                     </Stack>
@@ -186,11 +186,11 @@ const SignUp = (props: any) => {
                         </Select>
                     </FormControl>
                 </Stack>
-                <Stack className="photo" direction={"row"} gap={"40px"}>
+                <Stack className="photo">
                     <Box className="img">
-                        <img src={imagePreview} alt="persson" />
+                        <img src={imagePreview} width={"100%"} height={"100%"} alt="person" />
                     </Box>
-                    <Box className="photo-info" sx={{ mt: 4 }}>
+                    <Box className="photo-info">
                         <Box>Member Image</Box>
                         <Button
                             component="label"
