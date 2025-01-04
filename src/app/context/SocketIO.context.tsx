@@ -7,21 +7,21 @@ import Cookies from "universal-cookie";
 
 export const SocketContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const socketRef = useRef<Socket | null>(null)
-    const [socketRoom, setSocketRoom] = useState<string>("")
-    const { authMember } = useGlobals()
+    const initialSocketRoom = localStorage.getItem("socketRoom") ? JSON.parse(localStorage.getItem("socketRoom") as string) : ""
+    const [socketRoom, setSocketRoom] = useState<string>(initialSocketRoom)
+    const [updateSocket, setUpdateSocket] = useState<Date>(new Date())
     const cookie = new Cookies()
 
     useEffect(() => {
-        console.log("authenticated")
-        const headers = { authorization: cookie.get("accessToken") ?? null }
-        socketRef.current = io(TCP_URL, { extraHeaders: headers })
+        const token = cookie.get("accessToken")
+        socketRef.current = io(TCP_URL, { extraHeaders: token ? { authorization: `Barear ${token}` } : { authoraztion: '' } })
         console.log("=== SOCKET CONNECTION ===")
         return () => {
             socketRef.current?.disconnect()
         }
-    }, [authMember,socketRoom])
+    }, [updateSocket])
     return (
-        <SocketContext.Provider value={{ socketRef, socketRoom, setSocketRoom }}>
+        <SocketContext.Provider value={{ socket: socketRef.current as Socket, socketRoom, setSocketRoom, setUpdateSocket }}>
             {children}
         </SocketContext.Provider>
     )

@@ -1,5 +1,7 @@
 import { GroupOutlined } from "@mui/icons-material"
 import { Avatar, Box, Stack, Typography } from "@mui/material"
+import { Member } from "../../../libs/types/member"
+import { API_URL } from "../../../libs/config"
 
 const MenuBar = (props: any) => {
     const { members } = props
@@ -15,12 +17,13 @@ const MenuBar = (props: any) => {
             </Stack>
             <Stack className="members custom-scrollbar">
                 {
-                    members.map((ele: any) => {
+                    members.map((member:Member) => {
+                        const image_url = `${API_URL}/${member.memberImage}`
                         return (
                             <Stack className="member">
-                                <Avatar src="/img/icons/default-user.svg" />
+                                <Avatar src={image_url} />
                                 <Box>
-                                    {ele.memberNick}
+                                    {member.memberNick}
                                 </Box>
                             </Stack>
                         )

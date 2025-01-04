@@ -22,6 +22,7 @@ import { sweetErrorHandling } from "../../../libs/sweetAlert";
 import { Message } from "../../../libs/config";
 import MemberService from "../../services/member.service";
 import { MemberLoginInput } from "../../../libs/types/member";
+import { useSocket } from "../../hooks/useSocket";
 
 
 
@@ -32,7 +33,8 @@ const Login = (props: any) => {
     const [showPassword, setShowPassword] = useState<boolean>(false)
     const [password, setPassword] = useState<string>("")
     const [memberNick, setMemberNick] = useState<string>("")
-    const {setAuthMember}=useGlobals()
+    const { setAuthMember } = useGlobals()
+    const { socket, setSocketRoom } = useSocket()
 
     //handlers
     const handleChangePassword = (e: any) => {
@@ -44,6 +46,7 @@ const Login = (props: any) => {
     }
     const handleChange = (e: any) => {
         setRoom(e.target.value)
+        setSocketRoom(e.target.value)
     }
     const handleClickShowPassword = () => {
         if (showPassword) {
@@ -56,7 +59,7 @@ const Login = (props: any) => {
     const handleRequestLogin = async () => {
         try {
             if (memberNick === "" || password === "") throw new Error(Message.error3);
-            if(password.length<5) throw new Error(Message.error7)
+            if (password.length < 5) throw new Error(Message.error7)
             const data: MemberLoginInput = {
                 memberNick,
                 memberPassword: password
@@ -64,6 +67,7 @@ const Login = (props: any) => {
             const memberService = new MemberService()
             const member = await memberService.login(data);
             localStorage.setItem("member", JSON.stringify(member));
+            localStorage.setItem("socketRoom", JSON.stringify(room))
             setAuthMember(member)
             navigate("/chat")
         } catch (err: any) {

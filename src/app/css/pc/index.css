@@ -182,6 +182,7 @@
 .pc-wrap .container .chat-menu .msg-interface {
     height: 100%;
     background-color: #c4a77f;
+    overflow-y: scroll;
 }
 
 .pc-wrap .container .chat-menu .msg-interface .sender {

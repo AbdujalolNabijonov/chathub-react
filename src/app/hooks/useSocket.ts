@@ -1,16 +1,18 @@
 import { createContext, useContext } from "react";
+import { Socket } from "socket.io-client";
 
 
 interface SocketInterface {
-    socketRef: any,
+    socket: Socket,
     socketRoom: string
     setSocketRoom: any
+    setUpdateSocket: any
 }
 
 export const SocketContext = createContext<SocketInterface | undefined>(undefined);
 
 export const useSocket = () => {
     const context = useContext(SocketContext);
-    if(!context) throw new Error("Socket within Provider")
+    if (!context) throw new Error("Socket within Provider")
     return context
 }

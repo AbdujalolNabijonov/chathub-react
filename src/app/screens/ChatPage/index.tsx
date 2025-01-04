@@ -20,6 +20,11 @@ import { useGlobals } from '../../hooks/useGlobals'
 import { useNavigate } from 'react-router-dom'
 import { sweetErrorHandling, sweetTopSmallSuccessAlert } from '../../../libs/sweetAlert'
 import MemberService from '../../services/member.service'
+import { useSocket } from '../../hooks/useSocket'
+import { MessagePayload, MessagesPayload } from '../../../libs/types/chatMenu'
+import moment from 'moment'
+import { Member } from '../../../libs/types/member'
+import { API_URL } from '../../../libs/config'
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -50,58 +55,44 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     },
 }))
 
-interface Message {
-    id: number
-    content: string
-    sender: string
-    timestamp: string
-    image?: string
-}
-
-interface Contact {
-    id: number
-    name: string
-    avatar: string
-    lastMessage: string
-    timestamp: string
-    online?: boolean
-}
-const messages: Message[] = [
-    { id: 1, content: "Hello Peter, it's me, Steve", sender: "Steve Miller", timestamp: "11:04 am" },
-    { id: 2, content: "Are you there? we need to talk, it's urgent", sender: "Steve Miller", timestamp: "11:05 am" },
-    { id: 3, content: "Hey Steve, it's me. Are you looking for me now?", sender: "me", timestamp: "11:20 am" },
-    { id: 4, content: "Could you come and talk to me? I'll send you the place", sender: "Steve Miller", timestamp: "11:35 am" },
-    { id: 5, content: "Peter is typing...", sender: "status", timestamp: "11:40 am" },
-]
-
-const members = [
-    { memberNick: "Andy" },
-    { memberNick: "Shawn" },
-    { memberNick: "Martin" },
-    { memberNick: "David" },
-    { memberNick: "David" },
-    { memberNick: "David" },
-    { memberNick: "David" },
-    { memberNick: "David" },
-    { memberNick: "David" },
-    { memberNick: "David" },
-]
 
 const ChatMenu: React.FC = (props: any) => {
-    const [activeChat, setActiveChat] = useState<string>("Steve Miller")
     const [text, setText] = useState("")
     const [anchorEl, setAnchorEl] = useState(null)
+    const [messages, setMessages] = useState<MessagePayload[]>([])
+    const [members, setMembers] = useState<Member[]>([])
+
     const { authMember } = useGlobals()
     const navigate = useNavigate()
+    const { socket, socketRoom, setUpdateSocket } = useSocket()
 
     //LifeCircle
-    useEffect(()=>{
-        if(!authMember) navigate("/")
-    },[])
+    useEffect(() => {
+        if (!authMember) navigate("/")
+        setUpdateSocket(new Date())
+    }, [])
 
-    useEffect(()=>{
-        
-    })
+    useEffect(() => {
+        socket?.connect()
+
+        socket?.emit("joinRoom", JSON.stringify(socketRoom))
+
+        socket?.on('info', (data) => {
+            console.log("info:", data)
+        })
+
+        socket?.on("getMessages", (data) => {
+            const messages = JSON.parse(data)
+            console.log(messages)
+            setMessages(messages.list)
+        })
+
+        socket?.on("getMembers", (data) => {
+            const membersFetch = JSON.parse(data);
+            console.log(membersFetch)
+            setMembers(membersFetch)
+        })
+    }, [socket])
 
 
     //Handler
@@ -117,14 +108,14 @@ const ChatMenu: React.FC = (props: any) => {
         }
     }
 
-    const handleLogoutRequest = async()=>{
-        try{
+    const handleLogoutRequest = async () => {
+        try {
             const memberService = new MemberService();
-            const result = await memberService.logout();
+            await memberService.logout();
             await sweetTopSmallSuccessAlert("Success", 700);
             localStorage.removeItem("member");
             navigate("/")
-        }catch(err:any){
+        } catch (err: any) {
             await sweetErrorHandling(err)
         }
     }
@@ -139,7 +130,7 @@ const ChatMenu: React.FC = (props: any) => {
                             <ForumOutlined />
                             <Box>
                                 <Typography variant="subtitle1">Room Name</Typography>
-                                <Typography variant="caption" fontWeight={700}>Python</Typography>
+                                <Typography variant="caption" fontWeight={700}>{socketRoom}</Typography>
                             </Box>
                         </Box>
                         <Box className={"client-sign"} onClick={handleLogoutRequest}>
@@ -149,25 +140,26 @@ const ChatMenu: React.FC = (props: any) => {
                         </Box>
                     </Box>
                     {/* Messages */}
-                    <Stack className={"msg-interface"}>
-                        {messages.map((message: Message) => {
-                            if (message.sender === "me") {
+                    <Stack className={"msg-interface custom-scrollbar"}>
+                        {messages.map((message: MessagePayload) => {
+                            const image_url = `${API_URL}/${message.memberData.memberImage}`
+                            if (message?.memberData?._id === authMember?._id) {
                                 return (
                                     <Stack className={"sender"}>
                                         <Stack className='sender-msg'>
-                                            <Box>{message.content}</Box>
-                                            <Box className={"time"}>{message.timestamp}</Box>
+                                            <Box>{message.text}</Box>
+                                            <Box className={"time"}>{moment(message.timer).format("HH:mm")}</Box>
                                         </Stack>
-                                        <Avatar />
+                                        <Avatar src={image_url}/>
                                     </Stack>
                                 )
                             } else {
                                 return (
                                     <Stack className='messager'>
-                                        <Avatar />
+                                        <Avatar src={image_url}/>
                                         <Stack className='messager-msg'>
-                                            <Box>{message.content}</Box>
-                                            <Box className={"time"}>{message.timestamp}</Box>
+                                            <Box>{message.text}</Box>
+                                            <Box className={"time"}>{moment(message.timer).format("HH:mm")}</Box>
                                         </Stack>
                                     </Stack>
                                 )
