@@ -51,25 +51,92 @@
     height: 100vh;
     justify-content: center;
 }
-.mobile-wrap .container .auth{
+
+.mobile-wrap .container .auth {
     overflow-y: scroll;
 }
 
-.mobile-wrap .container .auth{
+.mobile-wrap .container .auth {
     padding: 10px 5px;
 }
-.mobile-wrap .container .auth .title{
+
+.mobile-wrap .container .auth .title {
     flex-direction: row;
     justify-content: center;
     gap: 10px;
     align-items: center;
     margin-bottom: 10px;
 }
-.mobile-wrap .container .auth .inputs{
+
+.mobile-wrap .container .auth .inputs {
     margin-bottom: 10px;
 }
 
-.mobile-wrap .container .auth .join-btn{
+.mobile-wrap .container .auth .join-btn {
     margin-top: 10px;
     padding: 5px 0;
+}
+
+/* Chat Interface */
+.mobile-wrap .dashboard-interface {
+    height: 100vh;
+    justify-content: space-between;
+    background-color: aliceblue;
+}
+
+.mobile-wrap .dashboard-interface .msg-interface {
+    padding: 5px;
+    height: auto;
+    background-color: aliceblue;
+    overflow-y: scroll;
+    padding-bottom: 80px;
+}
+
+.mobile-wrap .dashboard-interface .msg-interface .sender {
+    flex-direction: row;
+    word-wrap: break-word;
+    justify-content: end;
+    gap: 10px;
+    align-items: end;
+    margin: 5px 0;
+}
+
+.mobile-wrap .dashboard-interface .msg-interface .sender-msg {
+    max-width: 200px;
+    word-wrap: break-word;
+    background-color: rgb(206, 225, 241);
+    padding: 10px;
+    border-radius: 10px 10px 0 10px;
+    color: black;
+}
+
+.mobile-wrap .dashboard-interface .msg-interface .time {
+    font-size: 12px;
+    text-align: end;
+    color: rgb(133, 130, 130);
+}
+
+.mobile-wrap .dashboard-interface .msg-interface .messager {
+    flex-direction: row;
+    word-wrap: break-word;
+    justify-content: start;
+    gap: 10px;
+    align-items: end;
+    margin: 5px 0;
+}
+
+.mobile-wrap .dashboard-interface .msg-interface .messager .messager-msg {
+    max-width: 200px;
+    word-wrap: break-word;
+    background-color: rgb(175, 247, 218);
+    padding: 10px;
+    border-radius: 10px 10px 10px 0px;
+    color: black;
+}
+
+.mobile-wrap .dashboard-interface .sender-input {
+    background-color: #967E5D;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }

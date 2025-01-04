@@ -7,6 +7,7 @@ import { useGlobals } from "../../hooks/useGlobals"
 const MenuBar = (props: any) => {
     const { members } = props;
     const { authMember } = useGlobals()
+
     return (
         <Stack className="menu-bar">
             <Stack className="room-info">

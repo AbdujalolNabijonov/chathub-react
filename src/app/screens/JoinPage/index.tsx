@@ -1,9 +1,7 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
     Avatar,
-    Box,
     Button,
-    colors,
     FormControl,
     IconButton,
     InputAdornment,
@@ -15,7 +13,7 @@ import {
     TextField,
     Typography
 } from "@mui/material"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { useGlobals } from "../../hooks/useGlobals";
 import { sweetErrorHandling } from "../../../libs/sweetAlert";
@@ -34,7 +32,7 @@ const Login = (props: any) => {
     const [password, setPassword] = useState<string>("")
     const [memberNick, setMemberNick] = useState<string>("")
     const { setAuthMember } = useGlobals()
-    const { socket, setSocketRoom } = useSocket()
+    const { setSocketRoom,setUpdateSocket } = useSocket()
 
     //handlers
     const handleChangePassword = (e: any) => {
@@ -65,14 +63,14 @@ const Login = (props: any) => {
                 memberPassword: password
             }
             const memberService = new MemberService()
-            const member = await memberService.login(data);
+            const member = await memberService.login(data)
+            setAuthMember(member)
             localStorage.setItem("member", JSON.stringify(member));
             localStorage.setItem("socketRoom", JSON.stringify(room))
-            setAuthMember(member)
-            navigate("/chat",{replace:true})
-            window.location.reload()
+            navigate("/chat")
+            setUpdateSocket(new Date())
         } catch (err: any) {
-            await sweetErrorHandling(err)
+            sweetErrorHandling(err).then()
         }
     }
     return (

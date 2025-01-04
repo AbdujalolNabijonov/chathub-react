@@ -21,7 +21,7 @@
     border-radius: 20px;
     box-shadow: 0 0 10px black;
     width: 50%;
-    height: 95vh;
+    height:auto;
     box-sizing: border-box;
 }
 
