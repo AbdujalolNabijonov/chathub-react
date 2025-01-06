@@ -2,7 +2,6 @@ import React, { ReactNode, useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { API_URL} from "../../libs/config";
 import { SocketContext } from "../hooks/useSocket";
-import { useGlobals } from "../hooks/useGlobals";
 import Cookies from "universal-cookie";
 
 export const SocketContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {

@@ -73,8 +73,7 @@ const SignUp = (props: any) => {
             const member = await memberService.signup(data);
             setAuthMember(member)
             localStorage.setItem("member", JSON.stringify(member))
-            navigate("/chat")
-            window.location.reload()
+            window.location.replace("/chat")
         } catch (err) {
             console.log(`ERROR: handleRequestSignup, ${err}`)
             await sweetErrorHandling(err)

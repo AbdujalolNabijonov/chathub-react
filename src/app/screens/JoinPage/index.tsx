@@ -67,8 +67,7 @@ const Login = (props: any) => {
             setAuthMember(member)
             localStorage.setItem("member", JSON.stringify(member));
             localStorage.setItem("socketRoom", JSON.stringify(room))
-            navigate("/chat")
-            setUpdateSocket(new Date())
+            window.location.replace("/chat")
         } catch (err: any) {
             sweetErrorHandling(err).then()
         }

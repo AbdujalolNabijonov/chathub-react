@@ -9,6 +9,7 @@ import { useGlobals } from '../../../app/hooks/useGlobals';
 import { AddReactionOutlined, LogoutOutlined, Send } from '@mui/icons-material';
 import EmojiPicker from 'emoji-picker-react';
 import moment from 'moment';
+import { useSocket } from '../../../app/hooks/useSocket';
 
 interface DashBoardInterface {
     members: Member[],
@@ -25,6 +26,7 @@ export default function DashboardLayoutBasic(props: DashBoardInterface) {
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
     const chatRef = useRef<HTMLElement>()
     const { authMember } = useGlobals()
+    const {socketRoom}=useSocket()
     //LifeCircle
 
     useEffect(() => {
@@ -46,9 +48,13 @@ export default function DashboardLayoutBasic(props: DashBoardInterface) {
     }
     const NAVIGATION: Navigation = [
         {
+            kind: "page",
+            title: `Room Chat: ${socketRoom}`,
+        },
+        {
             kind: 'header',
             title: `Joined Members: ${members.length}`,
-        },
+        }
     ];
     members.forEach((member: Member) => {
         const image_url = member?.memberImage ? `${API_URL}/${member.memberImage}` : '';
@@ -84,21 +90,16 @@ export default function DashboardLayoutBasic(props: DashBoardInterface) {
                 <Stack className={"dashboard-interface"}>
                     <Box ref={chatRef} className={"msg-interface custom-scrollbar"}>
                         {messages.map((message: MessagePayload, index: number) => {
-                            const image_url = `${API_URL}/${message?.memberData?.memberImage}`
+                            const image_url = message?.memberData?.memberImage ? `${API_URL}/${message?.memberData?.memberImage}` : "img/icons/default-user.svg"
                             if (message?.memberData?._id === authMember?._id) {
                                 return (
                                     <Stack className={"sender"} key={index}>
                                         <Stack className='sender-msg'>
-                                            <Box>{message.text}</Box>
+                                            <Box className={"owner-msg"}>{message?.memberData?.memberNick}</Box>
+                                            <Box className={"text-msg"}>{message.text}</Box>
                                             <Box className={"time"}>{moment(message.timer).format("HH:mm")}</Box>
                                         </Stack>
                                         <Avatar src={image_url} alt='person' />
-                                    </Stack>
-                                )
-                            } else if (message.event === "info") {
-                                return (
-                                    <Stack className='info' key={index}>
-                                        <Box>{message?.memberData?.memberNick} has {message?.action} in {moment(message.timer).format("HH:mm")}</Box>
                                     </Stack>
                                 )
                             } else {
@@ -106,7 +107,8 @@ export default function DashboardLayoutBasic(props: DashBoardInterface) {
                                     <Stack className='messager' key={index}>
                                         <Avatar src={image_url} alt='person' />
                                         <Stack className='messager-msg'>
-                                            <Box>{message.text}</Box>
+                                            <Box className={"owner-msg"}>{message?.memberData?.memberNick}</Box>
+                                            <Box className={"text-msg"}>{message.text}</Box>
                                             <Box className={"time"}>{moment(message.timer).format("HH:mm")}</Box>
                                         </Stack>
                                     </Stack>

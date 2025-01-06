@@ -21,7 +21,7 @@
     border-radius: 20px;
     box-shadow: 0 0 10px black;
     width: 50%;
-    height:auto;
+    height: auto;
     box-sizing: border-box;
 }
 
@@ -55,7 +55,8 @@
     overflow: hidden;
     box-shadow: 0 0 5px black;
 }
-.pc-wrap .container .signup .photo .photo-info{
+
+.pc-wrap .container .signup .photo .photo-info {
     margin-top: 20px;
 }
 
@@ -198,12 +199,19 @@
 .pc-wrap .container .chat-menu .msg-interface .sender .sender-msg {
     background-color: rgb(232, 241, 249);
     padding: 10px 15px;
-    border-radius: 20px 20px 0 20px;
+    border-radius: 10px 10px 0 10px;
 }
 
-.pc-wrap .container .chat-menu .msg-interface .sender .sender-msg div:nth-child(1) {
+.pc-wrap .container .chat-menu .msg-interface .owner-msg {
+    color: red;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.pc-wrap .container .chat-menu .msg-interface .text-msg {
     word-wrap: break-word;
     max-width: 300px;
+    color: black;
 }
 
 .pc-wrap .container .chat-menu .msg-interface .time {
@@ -234,5 +242,5 @@
 .pc-wrap .container .chat-menu .msg-interface .messager .messager-msg {
     background-color: rgb(199, 224, 246);
     padding: 10px 15px;
-    border-radius: 20px 20px 20px 0px;
+    border-radius: 10px 10px 10px 0px;
 }

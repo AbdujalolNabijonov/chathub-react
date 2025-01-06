@@ -107,8 +107,20 @@
     background-color: rgb(206, 225, 241);
     padding: 10px;
     border-radius: 10px 10px 0 10px;
+}
+
+.mobile-wrap .dashboard-interface .msg-interface .owner-msg {
+    color: red;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.mobile-wrap .dashboard-interface .msg-interface .text-msg {
+    word-wrap: break-word;
+    max-width: 300px;
     color: black;
 }
+
 
 .mobile-wrap .dashboard-interface .msg-interface .time {
     font-size: 12px;

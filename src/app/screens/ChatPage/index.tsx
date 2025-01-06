@@ -7,7 +7,7 @@ import {
     Stack,
     Menu,
 } from '@mui/material'
-import {  Send, AddReactionOutlined, LogoutOutlined, ForumOutlined, } from '@mui/icons-material'
+import { Send, AddReactionOutlined, LogoutOutlined, ForumOutlined, } from '@mui/icons-material'
 import { useEffect, useRef, useState } from 'react'
 import EmojiPicker from 'emoji-picker-react'
 import MenuBar from './menuBar'
@@ -16,10 +16,10 @@ import { useNavigate } from 'react-router-dom'
 import { sweetErrorHandling, sweetTopSmallSuccessAlert } from '../../../libs/sweetAlert'
 import MemberService from '../../services/member.service'
 import { useSocket } from '../../hooks/useSocket'
-import { MessagePayload} from '../../../libs/types/chatMenu'
+import { MessagePayload } from '../../../libs/types/chatMenu'
 import moment from 'moment'
 import { Member } from '../../../libs/types/member'
-import { API_URL } from '../../../libs/config'
+import { API_URL, Message } from '../../../libs/config'
 import useDeviceDetect from '../../hooks/useDeviceDetect'
 import DashboardLayoutBasic from '../../../libs/components/chatPage/chatMobile'
 
@@ -30,6 +30,7 @@ const ChatMenu: React.FC = (props: any) => {
     const [messages, setMessages] = useState<MessagePayload[]>([])
     const [members, setMembers] = useState<Member[]>([])
     const chatRef = useRef<HTMLElement>()
+    const msgInputRef = useRef<HTMLElement | any>()
 
     const { authMember } = useGlobals()
     const navigate = useNavigate()
@@ -39,6 +40,7 @@ const ChatMenu: React.FC = (props: any) => {
     //LifeCircle
     useEffect(() => {
         if (!localStorage.getItem("member")) navigate("/")
+
         setUpdateSocket(new Date())
     }, [])
 
@@ -60,6 +62,12 @@ const ChatMenu: React.FC = (props: any) => {
         socket?.on("getMembers", (data) => {
             const membersFetch = JSON.parse(data);
             setMembers(membersFetch)
+            console.log("members", membersFetch)
+        })
+
+        socket?.on("error", (data) => {
+            sweetErrorHandling(JSON.parse(data)).then()
+            window.location.replace("/")
         })
 
         return () => {
@@ -90,9 +98,15 @@ const ChatMenu: React.FC = (props: any) => {
         }
     }
 
-    const handleRequestMessage = () => {
-        socket?.emit("message", JSON.stringify({ text }))
-        setText("")
+    const handleRequestMessage = async () => {
+        try {
+            if (!text) throw new Error(Message.error9);
+            socket?.emit("message", JSON.stringify({ text }))
+            setText("")
+        } catch (err: any) {
+            console.log(`ERROR: handleRequestMessage, ${err.message}`)
+            await sweetErrorHandling(err)
+        }
     }
 
     const handleLogoutRequest = () => {
@@ -131,30 +145,26 @@ const ChatMenu: React.FC = (props: any) => {
                         </Box>
                         {/* Messages */}
                         <Box ref={chatRef} className={"msg-interface custom-scrollbar"}>
-                            {messages.map((message: MessagePayload, index: number) => {
-                                const image_url = `${API_URL}/${message?.memberData?.memberImage}`
+                            {messages?.map((message: MessagePayload, index: number) => {
+                                const image_url = message?.memberData?.memberImage ? `${API_URL}/${message?.memberData?.memberImage}` : "/img/icons/default-user.svg"
                                 if (message?.memberData?._id === authMember?._id) {
                                     return (
                                         <Stack className={"sender"} key={index}>
                                             <Stack className='sender-msg'>
-                                                <Box>{message.text}</Box>
+                                                <Box className={"owner-msg"}>{message?.memberData?.memberNick}</Box>
+                                                <Box className={"text-msg"}>{message.text}</Box>
                                                 <Box className={"time"}>{moment(message.timer).format("HH:mm")}</Box>
                                             </Stack>
-                                            <Avatar src={image_url} alt='person'/>
-                                        </Stack>
-                                    )
-                                } else if (message.event === "info") {
-                                    return (
-                                        <Stack className='info' key={index}>
-                                            <Box>{message?.memberData?.memberNick} has {message?.action} in {moment(message.timer).format("HH:mm")}</Box>
+                                            <Avatar src={image_url} alt='person' />
                                         </Stack>
                                     )
                                 } else {
                                     return (
                                         <Stack className='messager' key={index}>
-                                            <Avatar src={image_url} alt='person'/>
+                                            <Avatar src={image_url} alt='person' />
                                             <Stack className='messager-msg'>
-                                                <Box>{message.text}</Box>
+                                                <Box className={"owner-msg"}>{message?.memberData?.memberNick}</Box>
+                                                <Box className={"text-msg"}>{message.text}</Box>
                                                 <Box className={"time"}>{moment(message.timer).format("HH:mm")}</Box>
                                             </Stack>
                                         </Stack>
@@ -170,6 +180,7 @@ const ChatMenu: React.FC = (props: any) => {
                                 </IconButton>
                                 <TextField
                                     fullWidth
+                                    ref={msgInputRef}
                                     placeholder="Type a message..."
                                     variant="outlined"
                                     size="small"
@@ -198,6 +209,7 @@ const ChatMenu: React.FC = (props: any) => {
                                     color="inherit"
                                     sx={{ color: 'white' }}
                                     onClick={handleRequestMessage}
+                                    tabIndex={0}
                                 >
                                     <Send />
                                 </IconButton>
